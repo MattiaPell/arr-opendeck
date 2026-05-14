@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" fill="none">
+  <rect width="72" height="72" rx="8" fill="#1a1a2e"/>
+  <!-- Download queue / bars icon -->
+  <rect x="10" y="34" width="12" height="24" rx="2" fill="#eab308" opacity="0.9"/>
+  <rect x="26" y="22" width="12" height="36" rx="2" fill="#3b82f6" opacity="0.9"/>
+  <rect x="42" y="16" width="12" height="42" rx="2" fill="#22c55e" opacity="0.9"/>
+  <rect x="58" y="28" width="12" height="30" rx="2" fill="#8b5cf6" opacity="0.9"/>
+  <arrow d="M36 8 L36 2 L30 8" stroke="#ffffff" stroke-width="2" fill="none"/>
+  <text x="36" y="66" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="8" font-weight="bold" opacity="0.6">QUEUE</text>
+</svg>

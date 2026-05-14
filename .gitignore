@@ -1,0 +1,4 @@
+node_modules/
+.sisyphus/
+*.log
+.DS_Store

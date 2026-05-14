@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" fill="none">
+  <rect width="72" height="72" rx="8" fill="#1a1a2e"/>
+  <!-- Lightning bolt / command icon -->
+  <polygon points="44,6 22,38 34,38 28,66 52,32 40,32 46,6" fill="#eab308" opacity="0.9"/>
+  <text x="36" y="66" text-anchor="middle" fill="#eab308" font-family="monospace" font-size="7" font-weight="bold" opacity="0.6">COMMAND</text>
+</svg>

@@ -1,0 +1,107 @@
+/* *Arr Deck — Shared Property Inspector Styles */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 16px;
+  margin: 0;
+  background: transparent;
+  color: #e0e0e0;
+  font-size: 13px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 12px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: #2a2a2a;
+  color: #e0e0e0;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+input:focus, select:focus, textarea:focus { border-color: #4a90d9; }
+input.error, select.error { border-color: #ef4444; }
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  accent-color: #4a90d9;
+}
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background: #4a90d9;
+  color: white;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+button:hover { background: #357abd; }
+button:active { background: #2a5f9e; }
+button.secondary { background: #333; color: #ccc; }
+button.secondary:hover { background: #444; }
+button.success { background: #22c55e; }
+button.danger { background: #ef4444; }
+button.danger:hover { background: #dc2626; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+.field-group {
+  margin-bottom: 8px;
+}
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.checkbox-row label {
+  margin-bottom: 0;
+  text-transform: none;
+  letter-spacing: 0;
+  font-weight: 400;
+  color: #ccc;
+  flex: 1;
+}
+.section-title {
+  font-size: 10px;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 16px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #2a2a2a;
+}
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+.status-dot.green { background: #22c55e; }
+.status-dot.yellow { background: #eab308; }
+.status-dot.red { background: #ef4444; }
+.status-dot.gray { background: #555; }
+#message {
+  font-size: 11px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  display: none;
+}
+#message.info { display: block; background: #1a3a5c; color: #93c5fd; }
+#message.success { display: block; background: #14532d; color: #86efac; }
+#message.error { display: block; background: #450a0a; color: #fca5a5; }
+.hidden { display: none !important; }

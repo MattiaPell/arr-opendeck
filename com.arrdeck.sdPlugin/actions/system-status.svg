@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" fill="none">
+  <rect width="72" height="72" rx="8" fill="#1a1a2e"/>
+  <!-- Heartbeat/pulse icon -->
+  <polyline points="4,40 16,40 22,20 28,50 34,30 40,44 46,16 52,40 64,40" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <circle cx="36" cy="36" r="26" stroke="#22c55e" stroke-width="1.5" opacity="0.3" fill="none"/>
+  <text x="36" y="66" text-anchor="middle" fill="#22c55e" font-family="monospace" font-size="8" font-weight="bold" opacity="0.8">STATUS</text>
+</svg>

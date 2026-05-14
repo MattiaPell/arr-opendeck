@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Queue Monitor</title>
+  <link rel="stylesheet" href="shared.css">
+</head>
+<body>
+  <form>
+    <div class="section-title">Connection</div>
+    <div class="field-group">
+      <label for="serviceId">Service</label>
+      <select id="serviceId">
+        <option value="sonarr">Sonarr</option>
+        <option value="radarr">Radarr</option>
+        <option value="lidarr">Lidarr</option>
+        <option value="readarr">Readarr</option>
+        <option value="prowlarr">Prowlarr</option>
+        <option value="bazarr">Bazarr</option>
+      </select>
+    </div>
+    <div class="field-group">
+      <label for="baseUrl">Server URL</label>
+      <input id="baseUrl" type="url" placeholder="http://localhost:8989">
+    </div>
+    <div class="field-group">
+      <label for="apiKey">API Key</label>
+      <input id="apiKey" type="password" placeholder="X-Api-Key">
+    </div>
+    <div class="section-title">Display</div>
+    <div class="field-group">
+      <label for="refreshInterval">Refresh Interval (seconds)</label>
+      <input id="refreshInterval" type="number" min="5" max="3600" value="30">
+    </div>
+    <div class="checkbox-row">
+      <input id="showFailedOnly" type="checkbox">
+      <label for="showFailedOnly">Show only failed items</label>
+    </div>
+    <div class="field-group">
+      <label for="maxItems">Max items to display</label>
+      <input id="maxItems" type="number" min="1" max="9" value="3">
+    </div>
+    <div id="message"></div>
+    <button type="button" id="testBtn" class="secondary">Test Connection</button>
+  </form>
+  <script src="shared.js"></script>
+  <script>
+    setupAutoSave();
+    document.getElementById('testBtn').addEventListener('click', async () => {
+      const s = collectSettings();
+      if (!s.baseUrl || !s.apiKey) { showMessage('Fill in URL and API key', 'error'); return; }
+      showMessage('Testing...', 'info');
+      try {
+        const ver = s.serviceId === 'sonarr' || s.serviceId === 'radarr' ? 'v3' : 'v1';
+        const resp = await fetch(s.baseUrl.replace(/\/+$/, '') + '/api/' + ver + '/queue/status', {
+          headers: { 'X-Api-Key': s.apiKey }
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          showMessage('Queue: ' + (data.totalCount || 0) + ' items', 'success');
+        } else {
+          showMessage('HTTP ' + resp.status, 'error');
+        }
+      } catch (err) {
+        showMessage('Failed: ' + err.message, 'error');
+      }
+    });
+  </script>
+</body>
+</html>

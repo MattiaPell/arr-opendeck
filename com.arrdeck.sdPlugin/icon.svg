@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 72" fill="none">
+  <rect width="72" height="72" rx="8" fill="#1a1a2e"/>
+  <!-- Cubes/arr stack icon -->
+  <rect x="12" y="12" width="20" height="20" rx="4" fill="#3b82f6" opacity="0.9"/>
+  <rect x="18" y="18" width="20" height="20" rx="4" fill="#8b5cf6" opacity="0.9"/>
+  <rect x="24" y="24" width="20" height="20" rx="4" fill="#22c55e" opacity="0.9"/>
+  <rect x="30" y="30" width="20" height="20" rx="4" fill="#eab308" opacity="0.9"/>
+  <!-- AARR text -->
+  <text x="36" y="64" text-anchor="middle" fill="#ffffff" font-family="monospace" font-size="10" font-weight="bold" opacity="0.6">*arr</text>
+</svg>

@@ -1,0 +1,217 @@
+{
+  "Name": "*Arr Deck",
+  "Author": "OpenDeck",
+  "Version": "1.0.0",
+  "Icon": "icon",
+  "Category": "Media Management",
+  "CategoryIcon": "icon",
+  "PropertyInspectorPath": "pi/shared.html",
+  "HasSettingsInterface": false,
+  "ApplicationsToMonitor": {},
+  "Actions": [
+    {
+      "Name": "System Status",
+      "UUID": "com.arrdeck.system-status",
+      "Tooltip": "Monitor *arr service health and version",
+      "Icon": "actions/system-status",
+      "PropertyInspectorPath": "pi/system-status.html",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "actions/system-status",
+          "Name": "Healthy",
+          "Title": "Status",
+          "ShowTitle": true,
+          "TitleColor": "#22c55e",
+          "TitleAlignment": "middle",
+          "FontStyle": "Bold",
+          "FontSize": "14",
+          "FontUnderline": false
+        },
+        {
+          "Image": "actions/system-status",
+          "Name": "Degraded",
+          "Title": "Status",
+          "ShowTitle": true,
+          "TitleColor": "#ef4444",
+          "TitleAlignment": "middle",
+          "FontStyle": "Bold",
+          "FontSize": "14",
+          "FontUnderline": false
+        }
+      ]
+    },
+    {
+      "Name": "Queue Monitor",
+      "UUID": "com.arrdeck.queue-monitor",
+      "Tooltip": "Monitor download queue status",
+      "Icon": "actions/queue-monitor",
+      "PropertyInspectorPath": "pi/queue-monitor.html",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "actions/queue-monitor",
+          "Name": "Idle",
+          "Title": "Queue",
+          "ShowTitle": true,
+          "TitleColor": "#22c55e",
+          "TitleAlignment": "middle",
+          "FontStyle": "Bold",
+          "FontSize": "14",
+          "FontUnderline": false
+        },
+        {
+          "Image": "actions/queue-monitor",
+          "Name": "Active",
+          "Title": "Queue",
+          "ShowTitle": true,
+          "TitleColor": "#eab308",
+          "TitleAlignment": "middle",
+          "FontStyle": "Bold",
+          "FontSize": "14",
+          "FontUnderline": false
+        }
+      ]
+    },
+    {
+      "Name": "Quick Command",
+      "UUID": "com.arrdeck.quick-command",
+      "Tooltip": "Execute predefined commands on your *arr service",
+      "Icon": "actions/quick-command",
+      "PropertyInspectorPath": "pi/quick-command.html",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "actions/quick-command",
+          "Name": "Ready",
+          "Title": "Command",
+          "ShowTitle": true,
+          "TitleColor": "#FFFFFF",
+          "TitleAlignment": "middle",
+          "FontStyle": "Bold",
+          "FontSize": "14",
+          "FontUnderline": false
+        },
+        {
+          "Image": "actions/quick-command",
+          "Name": "Running",
+          "Title": "Exec...",
+          "ShowTitle": true,
+          "TitleColor": "#eab308",
+          "TitleAlignment": "middle",
+          "FontStyle": "Bold",
+          "FontSize": "14",
+          "FontUnderline": false
+        }
+      ]
+    },
+    {
+      "Name": "Search Missing",
+      "UUID": "com.arrdeck.search-missing",
+      "Tooltip": "View missing items and trigger search",
+      "Icon": "actions/search-missing",
+      "PropertyInspectorPath": "pi/search-missing.html",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "actions/search-missing",
+          "Name": "Complete",
+          "Title": "Search",
+          "ShowTitle": true,
+          "TitleColor": "#22c55e",
+          "TitleAlignment": "middle",
+          "FontStyle": "Bold",
+          "FontSize": "14",
+          "FontUnderline": false
+        },
+        {
+          "Image": "actions/search-missing",
+          "Name": "Missing",
+          "Title": "Search",
+          "ShowTitle": true,
+          "TitleColor": "#ef4444",
+          "TitleAlignment": "middle",
+          "FontStyle": "Bold",
+          "FontSize": "14",
+          "FontUnderline": false
+        }
+      ]
+    },
+    {
+      "Name": "Stats Dashboard",
+      "UUID": "com.arrdeck.stats-dashboard",
+      "Tooltip": "Aggregate statistics from your *arr service",
+      "Icon": "actions/stats-dashboard",
+      "PropertyInspectorPath": "pi/stats-dashboard.html",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "actions/stats-dashboard",
+          "Name": "Default",
+          "Title": "Stats",
+          "ShowTitle": true,
+          "TitleColor": "#FFFFFF",
+          "TitleAlignment": "middle",
+          "FontStyle": "Bold",
+          "FontSize": "14",
+          "FontUnderline": false
+        }
+      ]
+    },
+    {
+      "Name": "Calendar View",
+      "UUID": "com.arrdeck.calendar-view",
+      "Tooltip": "View upcoming releases and episodes",
+      "Icon": "actions/calendar-view",
+      "PropertyInspectorPath": "pi/calendar-view.html",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "actions/calendar-view",
+          "Name": "Default",
+          "Title": "Calendar",
+          "ShowTitle": true,
+          "TitleColor": "#3b82f6",
+          "TitleAlignment": "middle",
+          "FontStyle": "Bold",
+          "FontSize": "14",
+          "FontUnderline": false
+        }
+      ]
+    },
+    {
+      "Name": "Recently Added",
+      "UUID": "com.arrdeck.recently-added",
+      "Tooltip": "View recently added media items",
+      "Icon": "actions/recently-added",
+      "PropertyInspectorPath": "pi/recently-added.html",
+      "Controllers": ["Keypad"],
+      "States": [
+        {
+          "Image": "actions/recently-added",
+          "Name": "Default",
+          "Title": "Recent",
+          "ShowTitle": true,
+          "TitleColor": "#22c55e",
+          "TitleAlignment": "middle",
+          "FontStyle": "Bold",
+          "FontSize": "14",
+          "FontUnderline": false
+        }
+      ]
+    }
+  ],
+  "OS": [
+    { "Platform": "mac", "Version": null },
+    { "Platform": "windows", "Version": null },
+    { "Platform": "linux", "Version": null }
+  ],
+  "CodePath": "index.html",
+  "CodePathMac": "index.html",
+  "CodePathWin": "index.html",
+  "CodePathLin": "index.html",
+  "SDKVersion": 2,
+  "Software": {
+    "MinimumVersion": "6.5.0"
+  }
+}
