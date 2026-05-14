@@ -15,13 +15,13 @@ import { RecentlyAddedAction } from './actions/recently-added.js';
 
 /** Map from action UUID → constructor */
 const ACTION_MAP = {
-  'com.arrdeck.system-status': SystemStatusAction,
-  'com.arrdeck.queue-monitor': QueueMonitorAction,
-  'com.arrdeck.quick-command': QuickCommandAction,
-  'com.arrdeck.search-missing': SearchMissingAction,
-  'com.arrdeck.stats-dashboard': StatsDashboardAction,
-  'com.arrdeck.calendar-view': CalendarViewAction,
-  'com.arrdeck.recently-added': RecentlyAddedAction,
+  'com.mattiapellegrini.arrstack.system-status': SystemStatusAction,
+  'com.mattiapellegrini.arrstack.queue-monitor': QueueMonitorAction,
+  'com.mattiapellegrini.arrstack.quick-command': QuickCommandAction,
+  'com.mattiapellegrini.arrstack.search-missing': SearchMissingAction,
+  'com.mattiapellegrini.arrstack.stats-dashboard': StatsDashboardAction,
+  'com.mattiapellegrini.arrstack.calendar-view': CalendarViewAction,
+  'com.mattiapellegrini.arrstack.recently-added': RecentlyAddedAction,
 };
 
 /** @type {Object<string, import('./base-action.js').BaseAction>} */

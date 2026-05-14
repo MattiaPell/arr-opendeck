@@ -2,7 +2,7 @@ import { describe, it, before, after, mock } from 'node:test';
 import assert from 'node:assert/strict';
 import { MOCK_SONARR_STATUS, MOCK_HEALTH_OK, MOCK_QUEUE_EMPTY } from './mock-server.js';
 
-const clientPath = '../com.arrdeck.sdPlugin/src/arr-api-client.js';
+const clientPath = '../com.mattiapellegrini.arrstack.sdPlugin/src/arr-api-client.js';
 let createArrClient;
 
 const MOCK_BASE_URL = 'http://sonarr:8989';

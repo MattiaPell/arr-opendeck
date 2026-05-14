@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 
 // Import the module under test — need to handle the fact it's in the plugin dir
 // We use a relative path that works from the project root when Node runs from tests/
-const registryPath = '../com.arrdeck.sdPlugin/src/service-registry.js';
+const registryPath = '../com.mattiapellegrini.arrstack.sdPlugin/src/service-registry.js';
 
 let reg;
 before(async () => {

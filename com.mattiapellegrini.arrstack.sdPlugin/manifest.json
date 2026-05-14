@@ -11,7 +11,7 @@
   "Actions": [
     {
       "Name": "System Status",
-      "UUID": "com.arrdeck.system-status",
+      "UUID": "com.mattiapellegrini.arrstack.system-status",
       "Tooltip": "Monitor *arr service health and version",
       "Icon": "actions/system-status",
       "PropertyInspectorPath": "pi/system-status.html",
@@ -43,7 +43,7 @@
     },
     {
       "Name": "Queue Monitor",
-      "UUID": "com.arrdeck.queue-monitor",
+      "UUID": "com.mattiapellegrini.arrstack.queue-monitor",
       "Tooltip": "Monitor download queue status",
       "Icon": "actions/queue-monitor",
       "PropertyInspectorPath": "pi/queue-monitor.html",
@@ -75,7 +75,7 @@
     },
     {
       "Name": "Quick Command",
-      "UUID": "com.arrdeck.quick-command",
+      "UUID": "com.mattiapellegrini.arrstack.quick-command",
       "Tooltip": "Execute predefined commands on your *arr service",
       "Icon": "actions/quick-command",
       "PropertyInspectorPath": "pi/quick-command.html",
@@ -107,7 +107,7 @@
     },
     {
       "Name": "Search Missing",
-      "UUID": "com.arrdeck.search-missing",
+      "UUID": "com.mattiapellegrini.arrstack.search-missing",
       "Tooltip": "View missing items and trigger search",
       "Icon": "actions/search-missing",
       "PropertyInspectorPath": "pi/search-missing.html",
@@ -139,7 +139,7 @@
     },
     {
       "Name": "Stats Dashboard",
-      "UUID": "com.arrdeck.stats-dashboard",
+      "UUID": "com.mattiapellegrini.arrstack.stats-dashboard",
       "Tooltip": "Aggregate statistics from your *arr service",
       "Icon": "actions/stats-dashboard",
       "PropertyInspectorPath": "pi/stats-dashboard.html",
@@ -160,7 +160,7 @@
     },
     {
       "Name": "Calendar View",
-      "UUID": "com.arrdeck.calendar-view",
+      "UUID": "com.mattiapellegrini.arrstack.calendar-view",
       "Tooltip": "View upcoming releases and episodes",
       "Icon": "actions/calendar-view",
       "PropertyInspectorPath": "pi/calendar-view.html",
@@ -181,7 +181,7 @@
     },
     {
       "Name": "Recently Added",
-      "UUID": "com.arrdeck.recently-added",
+      "UUID": "com.mattiapellegrini.arrstack.recently-added",
       "Tooltip": "View recently added media items",
       "Icon": "actions/recently-added",
       "PropertyInspectorPath": "pi/recently-added.html",

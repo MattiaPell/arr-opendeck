@@ -18,11 +18,11 @@ const mockWs = {
 };
 
 before(async () => {
-  const baseMod = await import('../../com.arrdeck.sdPlugin/src/base-action.js');
+  const baseMod = await import('../../com.mattiapellegrini.arrstack.sdPlugin/src/base-action.js');
   setWebSocket = baseMod.setWebSocket;
   setWebSocket(mockWs);
 
-  const mod = await import('../../com.arrdeck.sdPlugin/src/actions/system-status.js');
+  const mod = await import('../../com.mattiapellegrini.arrstack.sdPlugin/src/actions/system-status.js');
   SystemStatusAction = mod.SystemStatusAction;
 });
 
@@ -33,7 +33,7 @@ after(() => {
 
 describe('SystemStatusAction', () => {
   it('shows error text when not configured', () => {
-    const action = new SystemStatusAction('ctx-1', {}, 'com.arrdeck.system-status');
+    const action = new SystemStatusAction('ctx-1', {}, 'com.mattiapellegrini.arrstack.system-status');
     // No serviceId, baseUrl, or apiKey set — should return configure message
     return action.fetchData().then(result => {
       assert.equal(result.success, false);
@@ -58,7 +58,7 @@ describe('SystemStatusAction', () => {
 
     const action = new SystemStatusAction('ctx-2', {
       serviceId: 'sonarr', baseUrl: 'http://localhost:8989', apiKey: 'test-key',
-    }, 'com.arrdeck.system-status');
+    }, 'com.mattiapellegrini.arrstack.system-status');
 
     const result = await action.fetchData();
     assert.equal(result.success, true);
@@ -90,7 +90,7 @@ describe('SystemStatusAction', () => {
 
     const action = new SystemStatusAction('ctx-3', {
       serviceId: 'sonarr', baseUrl: 'http://localhost:8989', apiKey: 'test-key',
-    }, 'com.arrdeck.system-status');
+    }, 'com.mattiapellegrini.arrstack.system-status');
 
     const result = await action.fetchData();
     const state = action.getState(result.data);
