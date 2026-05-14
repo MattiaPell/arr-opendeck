@@ -5,7 +5,7 @@
   "description": "*Arr Deck - OpenAction multi-service plugin for *arr media management",
   "type": "module",
   "scripts": {
-    "test": "node --test tests/**/*.test.js",
-    "test:watch": "node --test --watch tests/**/*.test.js"
+    "test": "node --test tests/service-registry.test.js tests/arr-api-client.test.js tests/base-action.test.js tests/actions/system-status.test.js tests/actions/queue-monitor.test.js tests/actions/quick-command.test.js tests/actions/search-missing.test.js tests/actions/stats-dashboard.test.js tests/actions/calendar-view.test.js tests/actions/recently-added.test.js",
+    "test:watch": "node --test --watch tests/service-registry.test.js tests/arr-api-client.test.js tests/base-action.test.js tests/actions/system-status.test.js tests/actions/queue-monitor.test.js tests/actions/quick-command.test.js tests/actions/search-missing.test.js tests/actions/stats-dashboard.test.js tests/actions/calendar-view.test.js tests/actions/recently-added.test.js"
   }
 }

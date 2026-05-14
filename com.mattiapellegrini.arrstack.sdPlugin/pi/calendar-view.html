@@ -43,11 +43,18 @@
       <input id="monitoredOnly" type="checkbox" checked>
       <label for="monitoredOnly">Show monitored items only</label>
     </div>
+    <div class="section-title">Global Settings</div>
+    <div class="checkbox-row">
+      <input id="useGlobal" type="checkbox">
+      <label for="useGlobal">Use global connection settings</label>
+    </div>
+    <div style="font-size:11px;color:#666;margin-bottom:12px;" id="_globalIndicator">Global: not set</div>
     <div id="message"></div>
   </form>
   <script src="shared.js"></script>
   <script>
     setupAutoSave();
+    toggleConnectionFields();
   </script>
 </body>
 </html>

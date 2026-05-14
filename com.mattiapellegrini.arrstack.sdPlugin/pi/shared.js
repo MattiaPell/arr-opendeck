@@ -1,35 +1,15 @@
-/**
- * *Arr Deck — Shared Property Inspector JavaScript
- *
- * Provides WebSocket connection management and settings helpers
- * that all property inspectors use.
- */
-
-/** @type {WebSocket|null} */
 let _ws = null;
 let _piUUID = null;
 let _currentContext = null;
 let _currentAction = null;
-/** @type {Function|null} */
 let _settingsCallback = null;
 
-/**
- * Connect to the OpenAction server as a property inspector.
- * Stream Deck SDK compatible signature.
- * @param {number} port
- * @param {string} propertyInspectorUUID
- * @param {string} registerEvent
- * @param {object|string} info
- */
 function connectOpenActionSocket(port, propertyInspectorUUID, registerEvent, info) {
   _piUUID = propertyInspectorUUID;
   _ws = new WebSocket('ws://localhost:' + port);
 
   _ws.onopen = () => {
-    _ws.send(JSON.stringify({
-      event: registerEvent,
-      uuid: _piUUID,
-    }));
+    _ws.send(JSON.stringify({ event: registerEvent, uuid: _piUUID }));
   };
 
   _ws.onmessage = (event) => {
@@ -51,55 +31,49 @@ function connectOpenActionSocket(port, propertyInspectorUUID, registerEvent, inf
         }
         break;
 
+      case 'didReceiveGlobalSettings': {
+        const gs = payload ? payload.settings : {};
+        populateGlobalFields(gs);
+        break;
+      }
+
       case 'sendToPropertyInspector':
-        if (_settingsCallback) {
-          _settingsCallback(payload);
-        }
+        if (_settingsCallback) _settingsCallback(payload);
         break;
 
       case 'propertyInspectorDidAppear':
         requestSettings();
+        requestGlobalSettings();
         break;
     }
   };
 
   _ws.onerror = (err) => {
-    console.error('[PI] WebSocket error:', err);
+    console.error('[PI] WS error:', err);
   };
-
-  _ws.onclose = () => {
-    console.log('[PI] Connection closed');
-  };
+  _ws.onclose = () => {};
 }
 
-/**
- * Request current settings from the plugin.
- */
 function requestSettings() {
   if (!_ws || _ws.readyState !== WebSocket.OPEN) return;
-  _ws.send(JSON.stringify({
-    event: 'getSettings',
-    context: _piUUID,
-  }));
+  _ws.send(JSON.stringify({ event: 'getSettings', context: _piUUID }));
 }
 
-/**
- * Send updated settings to the plugin.
- * @param {object} settings
- */
 function sendSettings(settings) {
   if (!_ws || _ws.readyState !== WebSocket.OPEN) return;
-  _ws.send(JSON.stringify({
-    event: 'setSettings',
-    context: _piUUID,
-    payload: settings,
-  }));
+  _ws.send(JSON.stringify({ event: 'setSettings', context: _piUUID, payload: settings }));
 }
 
-/**
- * Send a message to the plugin.
- * @param {object} payload
- */
+function requestGlobalSettings() {
+  if (!_ws || _ws.readyState !== WebSocket.OPEN) return;
+  _ws.send(JSON.stringify({ event: 'getGlobalSettings', context: _piUUID }));
+}
+
+function sendGlobalSettings(settings) {
+  if (!_ws || _ws.readyState !== WebSocket.OPEN) return;
+  _ws.send(JSON.stringify({ event: 'setGlobalSettings', context: _piUUID, payload: settings }));
+}
+
 function sendToPlugin(payload) {
   if (!_ws || _ws.readyState !== WebSocket.OPEN) return;
   _ws.send(JSON.stringify({
@@ -110,19 +84,10 @@ function sendToPlugin(payload) {
   }));
 }
 
-/**
- * Register a callback for settings updates.
- * @param {function(object): void} callback
- */
 function onSettingsReceived(callback) {
   _settingsCallback = callback;
 }
 
-/**
- * Display a status message in the PI.
- * @param {string} msg - Message text
- * @param {'info'|'success'|'error'} type
- */
 function showMessage(msg, type) {
   const el = document.getElementById('message');
   if (!el) return;
@@ -131,11 +96,6 @@ function showMessage(msg, type) {
   el.style.display = 'block';
 }
 
-/**
- * Populate form fields from settings object.
- * Matches field IDs to setting keys.
- * @param {object} settings
- */
 function populateSettings(settings) {
   if (!settings) return;
   for (const [key, value] of Object.entries(settings)) {
@@ -147,12 +107,19 @@ function populateSettings(settings) {
       el.value = value;
     }
   }
+  toggleConnectionFields();
 }
 
-/**
- * Collect all form field values into a settings object.
- * @returns {object}
- */
+function populateGlobalFields(settings) {
+  if (!settings) return;
+  const el = document.getElementById('_globalIndicator');
+  if (el) {
+    const hasGlobals = settings.serviceId || settings.baseUrl;
+    el.textContent = hasGlobals ? 'Global: configured' : 'Global: not set';
+    el.className = hasGlobals ? 'status-dot green' : 'status-dot gray';
+  }
+}
+
 function collectSettings() {
   const settings = {};
   const fields = document.querySelectorAll('[id]');
@@ -166,33 +133,47 @@ function collectSettings() {
   return settings;
 }
 
-/**
- * Auto-save settings when any form field changes.
- * Debounces rapid changes.
- */
+function toggleConnectionFields() {
+  const useGlobal = document.getElementById('useGlobal');
+  if (!useGlobal) return;
+  const isGlobal = useGlobal.checked;
+  ['serviceId', 'baseUrl', 'apiKey'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.disabled = isGlobal;
+  });
+}
+
 function setupAutoSave() {
   let debounceTimer = null;
   const form = document.querySelector('form') || document.body;
+
   form.addEventListener('input', () => {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
       sendSettings(collectSettings());
     }, 300);
   });
+
   form.addEventListener('change', () => {
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
-      sendSettings(collectSettings());
+      const settings = collectSettings();
+      sendSettings(settings);
+      if (document.activeElement && document.activeElement.id === 'useGlobal') {
+        toggleConnectionFields();
+      }
     }, 300);
   });
 }
 
-// Make functions globally available (Stream Deck PI runs in isolated WebView)
 window.connectOpenActionSocket = connectOpenActionSocket;
 window.requestSettings = requestSettings;
 window.sendSettings = sendSettings;
+window.requestGlobalSettings = requestGlobalSettings;
+window.sendGlobalSettings = sendGlobalSettings;
 window.sendToPlugin = sendToPlugin;
 window.onSettingsReceived = onSettingsReceived;
 window.showMessage = showMessage;
 window.collectSettings = collectSettings;
 window.setupAutoSave = setupAutoSave;
+window.toggleConnectionFields = toggleConnectionFields;

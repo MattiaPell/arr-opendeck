@@ -52,11 +52,18 @@
       <input id="requireConfirmation" type="checkbox" checked>
       <label for="requireConfirmation">Require confirmation before executing</label>
     </div>
+    <div class="section-title">Global Settings</div>
+    <div class="checkbox-row">
+      <input id="useGlobal" type="checkbox">
+      <label for="useGlobal">Use global connection settings</label>
+    </div>
+    <div style="font-size:11px;color:#666;margin-bottom:12px;" id="_globalIndicator">Global: not set</div>
     <div id="message"></div>
   </form>
   <script src="shared.js"></script>
   <script>
     setupAutoSave();
+    toggleConnectionFields();
 
     document.getElementById('commandType').addEventListener('change', () => {
       const isCustom = document.getElementById('commandType').value === 'custom';

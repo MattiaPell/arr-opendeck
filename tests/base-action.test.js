@@ -152,6 +152,71 @@ describe('BaseAction', () => {
   });
 });
 
+describe('Global Settings and Backoff', () => {
+  it('_effectiveSettings merges per-action with global', () => {
+    const a = new BaseAction('ctx', { refreshInterval: 10 }, '', { baseUrl: 'http://global', apiKey: 'global-key', serviceId: 'sonarr' });
+    const eff = a._effectiveSettings();
+    assert.equal(eff.baseUrl, 'http://global');
+    assert.equal(eff.refreshInterval, 10);
+    assert.equal(eff.serviceId, 'sonarr');
+  });
+
+  it('_effectiveSettings falls back without globals', () => {
+    const a = new BaseAction('ctx', { serviceId: 'radarr' }, '', null);
+    const eff = a._effectiveSettings();
+    assert.equal(eff.serviceId, 'radarr');
+    assert.equal(eff.baseUrl, '');
+  });
+
+  it('backoff schedules retry after consecutive failure', async () => {
+    const a = new BaseAction('ctx', {}, '', {});
+    let callCount = 0;
+    a.fetchData = async () => {
+      callCount++;
+      return { success: false, error: { message: 'fail' } };
+    };
+    a.setTitle = () => {};
+    a.setState = () => {};
+
+    a._consecutiveFails = 1;
+    await a.fetchAndUpdate();
+    assert(a._backoffTimer !== null, 'backoff timer should be set');
+    assert.equal(a._consecutiveFails, 2);
+
+    a._cancelBackoff();
+  });
+
+  it('no backoff after successful fetch', async () => {
+    const a = new BaseAction('ctx', {}, '', {});
+    a.fetchData = async () => ({ success: true, data: {} });
+    a.setTitle = () => {};
+    a.setState = () => {};
+
+    a._consecutiveFails = 3;
+    await a.fetchAndUpdate();
+    assert.equal(a._backoffTimer, null);
+    assert.equal(a._consecutiveFails, 0);
+  });
+
+  it('onGlobalSettingsChanged updates and refetches', () => {
+    const a = new BaseAction('ctx', {}, '', {});
+    let fetchCalled = false;
+    a.fetchAndUpdate = async () => { fetchCalled = true; };
+
+    a.onGlobalSettingsChanged({ baseUrl: 'http://new' });
+    assert.equal(a._globalSettings.baseUrl, 'http://new');
+    assert.equal(fetchCalled, true);
+  });
+
+  it('onSettingsUpdated resets backoff counter', () => {
+    const a = new BaseAction('ctx', {}, '', {});
+    a._consecutiveFails = 5;
+    a.fetchAndUpdate = async () => {};
+    a.onSettingsUpdated({ refreshInterval: 30 });
+    assert.equal(a._consecutiveFails, 0);
+  });
+});
+
 describe('setWebSocket / getWebSocket', () => {
   it('stores and retrieves WebSocket reference', () => {
     const ws = { readyState: WebSocket.OPEN, send: () => {} };

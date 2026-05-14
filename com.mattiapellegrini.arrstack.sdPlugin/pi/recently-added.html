@@ -40,12 +40,19 @@
       <label for="maxItems">Max Items</label>
       <input id="maxItems" type="number" min="1" max="50" value="10">
     </div>
+    <div class="section-title">Global Settings</div>
+    <div class="checkbox-row">
+      <input id="useGlobal" type="checkbox">
+      <label for="useGlobal">Use global connection settings</label>
+    </div>
+    <div style="font-size:11px;color:#666;margin-bottom:12px;" id="_globalIndicator">Global: not set</div>
     <div id="message"></div>
     <button type="button" id="testBtn" class="secondary">Test Connection</button>
   </form>
   <script src="shared.js"></script>
   <script>
     setupAutoSave();
+    toggleConnectionFields();
     document.getElementById('testBtn').addEventListener('click', async () => {
       const s = collectSettings();
       if (!s.baseUrl || !s.apiKey) { showMessage('Fill in URL and API key', 'error'); return; }

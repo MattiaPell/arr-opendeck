@@ -1,9 +1,3 @@
-/**
- * *Arr Deck — Plugin Entry Point
- *
- * WebSocket connection manager, event router, and action instance lifecycle.
- */
-
 import { setWebSocket } from './base-action.js';
 import { SystemStatusAction } from './actions/system-status.js';
 import { QueueMonitorAction } from './actions/queue-monitor.js';
@@ -13,7 +7,6 @@ import { StatsDashboardAction } from './actions/stats-dashboard.js';
 import { CalendarViewAction } from './actions/calendar-view.js';
 import { RecentlyAddedAction } from './actions/recently-added.js';
 
-/** Map from action UUID → constructor */
 const ACTION_MAP = {
   'com.mattiapellegrini.arrstack.system-status': SystemStatusAction,
   'com.mattiapellegrini.arrstack.queue-monitor': QueueMonitorAction,
@@ -24,15 +17,20 @@ const ACTION_MAP = {
   'com.mattiapellegrini.arrstack.recently-added': RecentlyAddedAction,
 };
 
-/** @type {Object<string, import('./base-action.js').BaseAction>} */
 const instances = {};
 let ws = null;
 let pluginUUID = '';
+/** Global settings shared across all actions */
+let _globalSettings = {};
 
-/**
- * Parse CLI arguments from the OpenAction server launch command.
- * @returns {{port: number, pluginUUID: string, registerEvent: string, info: object}}
- */
+export function getGlobalSettings() {
+  return _globalSettings;
+}
+
+export function setGlobalSettingsStore(settings) {
+  _globalSettings = settings || {};
+}
+
 function parseArgs() {
   const args = {};
   for (let i = 0; i < window.args.length; i += 2) {
@@ -46,14 +44,6 @@ function parseArgs() {
   return args;
 }
 
-/**
- * Connect to the OpenAction server.
- * Stream Deck SDK expects this function to be globally available.
- * @param {number} port
- * @param {string} uuid
- * @param {string} registerEvent
- * @param {object|string} info
- */
 function connectOpenActionSocket(port, uuid, registerEvent, info) {
   pluginUUID = uuid;
   ws = new WebSocket('ws://localhost:' + port);
@@ -77,10 +67,6 @@ function connectOpenActionSocket(port, uuid, registerEvent, info) {
   };
 }
 
-/**
- * Main event router — dispatches incoming events to the correct action instance.
- * @param {object} msg - parsed WebSocket message
- */
 function handleEvent(msg) {
   const { event, action, context, device, payload } = msg;
 
@@ -105,17 +91,20 @@ function handleEvent(msg) {
       }
       break;
 
-    case 'keyUp':
-      if (instances[context]) {
-        // Key up handler if needed
-      }
-      break;
-
     case 'didReceiveSettings':
       ensureAction(context, action, payload);
       if (instances[context]) {
         instances[context].onSettingsUpdated(payload ? payload.settings : {});
       }
+      break;
+
+    case 'didReceiveGlobalSettings':
+      setGlobalSettingsStore(payload ? payload.settings : {});
+      Object.values(instances).forEach(inst => {
+        if (inst.onGlobalSettingsChanged) {
+          inst.onGlobalSettingsChanged(_globalSettings);
+        }
+      });
       break;
 
     case 'sendToPlugin':
@@ -125,27 +114,14 @@ function handleEvent(msg) {
       break;
 
     case 'deviceDidConnect':
-      console.log('[Plugin] Device connected:', device);
       break;
-
     case 'deviceDidDisconnect':
-      console.log('[Plugin] Device disconnected:', device);
       break;
-
-    case 'didReceiveGlobalSettings':
-      break;
-
     default:
       console.log('[Plugin] Unhandled event:', event);
   }
 }
 
-/**
- * Create or retrieve an action instance for a given context.
- * @param {string} context
- * @param {string} actionUuid
- * @param {object} [payload]
- */
 function ensureAction(context, actionUuid, payload) {
   if (instances[context]) return;
   if (!actionUuid) return;
@@ -157,11 +133,9 @@ function ensureAction(context, actionUuid, payload) {
   }
 
   const settings = (payload && payload.settings) || {};
-  instances[context] = new ActionClass(context, settings, actionUuid);
+  instances[context] = new ActionClass(context, settings, actionUuid, _globalSettings);
 }
 
-// --- Auto-init for HTML plugin mode ---
-// The plugin can receive args via the URL query string or window.args
 (function init() {
   if (typeof window !== 'undefined') {
     if (window.args && Array.isArray(window.args)) {
@@ -170,8 +144,6 @@ function ensureAction(context, actionUuid, payload) {
         connectOpenActionSocket(a.port, a.pluginUUID || pluginUUID, a.registerEvent || '', a.info || {});
       }
     }
-
-    // Support URL-based args: ?port=...&pluginUUID=...&registerEvent=...
     const params = new URLSearchParams(window.location.search);
     if (params.get('port')) {
       connectOpenActionSocket(
@@ -184,5 +156,4 @@ function ensureAction(context, actionUuid, payload) {
   }
 })();
 
-// Export for Stream Deck SDK compatibility
 window.connectOpenActionSocket = connectOpenActionSocket;

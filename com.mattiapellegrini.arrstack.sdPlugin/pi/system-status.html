@@ -36,12 +36,19 @@
       <input id="showVersion" type="checkbox" checked>
       <label for="showVersion">Show version on button</label>
     </div>
+    <div class="section-title">Global Settings</div>
+    <div class="checkbox-row">
+      <input id="useGlobal" type="checkbox">
+      <label for="useGlobal">Use global connection settings</label>
+    </div>
+    <div style="font-size:11px;color:#666;margin-bottom:12px;" id="_globalIndicator">Global: not set</div>
     <div id="message"></div>
     <button type="button" id="testBtn" class="secondary">Test Connection</button>
   </form>
   <script src="shared.js"></script>
   <script>
     setupAutoSave();
+    toggleConnectionFields();
 
     document.getElementById('testBtn').addEventListener('click', async () => {
       const settings = collectSettings();
